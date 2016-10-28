@@ -1,13 +1,5 @@
 #include "portalio.h"
 
-//Port usleep to windows
-#ifdef _WIN32
-	#include <windows.h>
-#else
-	#include <unistd.h>
-	int Sleep(int sleepMs) {return usleep(sleepMs * 1000); }
-#endif
-
 /*
  Number of possible configurations: 1  Device Class: 0  VendorID: 1430  ProductID: 0150
  Total interface number: 1 ||| Number of alternate settings: 1 | Interface Number: 0 | 
@@ -199,7 +191,7 @@ bool PortalIO::WriteBlock(unsigned int block, unsigned char data[0x10], int skyl
 		try {
 		
 			Write(&req);
-			Sleep(100); //Wait 0.1 seconds for write to take effect
+			usleep(100000); // wait for write to take effect.
 		
 			memset(verify, 0xCD, sizeof(verify));
 		
